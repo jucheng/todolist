@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.min.css">
+    <!--</head>-->
+
+    <body>
+        <div class="container" id="box">
+            <form role='form'>
+                <div class="form-group">
+                    <label for="username">用户名:</label>
+                    <input type="text" id="username" class="form-control" placeholder="请输入用户名" v-model="username">
+                </div>
+                <div class="form-group">
+                    <label for="start_time">创建时间:</label>
+                    <!--  限制年龄智能输入数字：onkeyup='this.value=this.value.replace(/\D/gi,"")' -->
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type="text" id="start_time" class="form-control" placeholder="输入年龄" v-model="start_time">
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="end_time">完成时间:</label>
+                    <!--  限制年龄智能输入数字：onkeyup='this.value=this.value.replace(/\D/gi,"")' -->
+                    <div class='input-group date' id='datetimepicker2'>
+                        <input type="text" id="end_time" class="form-control" placeholder="输入年龄" v-model="end_time">
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="event_content">计划内容:</label>
+                    <input type="text" id="event_content" class="form-control" placeholder="请输入计划内容" v-model="event_content">
+                </div>
+                <div class="form-group">
+                    <input type="button" value="添加" class="btn btn-primary " v-on:click="addItem()">
+                    <input type="reset" value="重置" class="btn btn-danger ">
+                    <!-- 重置用到属性reset -->
+                </div>
+            </form>
+            <hr>
+            <table class="table table-bordered table-hover table-condensed table-striped">
+                <caption class="h2  text-info text-center">计划表</caption>
+                <thead>
+                    <tr class="text-center">
+                        <th class="text-center ">序号</th>
+                        <th class="text-center ">名字</th>
+                        <th class="text-center ">创建时间</th>
+                        <th class="text-center ">完成时间</th>
+                        <th class="text-center ">计划内容</th>
+                        <th class="text-center ">删除</th>
+                    </tr>
+                </thead>
+                <tr class="text-center " v-for="item in myData " v-cloak>
+                    <!-- 这里的index的值初始化是0,所以需要在这里加一 -->
+                    <td>{{ $index+1 }}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.start_time}}</td>
+                    <td>{{item.end_time}}</td>
+                    <td>{{item.event_content}}</td>
+                    <td>
+                        <button type="button " class="btn btn-primary center-block " data-toggle="modal" data-target="#myModal" v-on:click="nowIndex=$index">删除</button>
+                    </td>
+                </tr>
+                <tr v-show="myData.length !=0 ">
+                    <td colspan="6 " class="text-right ">
+                        <button type="button " class="btn btn-danger " data-toggle="modal" data-target="#myModal" v-on:click="nowIndex=-2">删除全部</button>
+                    </td>
+                </tr>
+                <tr v-show="myData.length==0 ">
+                    <td colspan="6 " class="text-center text-muted ">
+                        <p>暂无数据....</p>
+                    </td>
+                </tr>
+            </table>
+            <!-- 按钮触发模态框 -->
+            <!-- 模态框（Modal） -->
+            <!-- 测试被点击到的删除按钮是对应哪一个item的，用下面语句测试,当点击对应按钮之后会出现具体的index值-->
+            <!--   data-index="{{nowIndex}}" 这里的nowIndex要用大括号括起来 -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title text-danger" id="myModalLabel">删除警告</h4>
+                        </div>
+                        <div class="modal-body ">你确认删除这条数据吗？</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="deleteMsg(nowIndex)">确认删除</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal -->
+            </div>
+            <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+            <script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script src="http://apps.bdimg.com/libs/vue/1.0.14/vue.js"></script>
+            <script src="js/bootstrap-datetimepicker.fr.js"></script>
+            <script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+            <script src="js/bootstrap-datetimepicker.js"></script>
+            <script src="js/show.js "></script>
+    </body>
+
+</html>
